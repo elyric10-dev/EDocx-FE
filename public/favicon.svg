@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" role="img" aria-label="EDocx">
+  <defs>
+    <linearGradient id="gdocx-frame" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5b9bf5" />
+      <stop offset="38%" stop-color="#4285f4" />
+      <stop offset="72%" stop-color="#34a853" />
+      <stop offset="100%" stop-color="#fbbc04" />
+    </linearGradient>
+    <linearGradient id="gdocx-stripe" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4285f4" />
+      <stop offset="33%" stop-color="#34a853" />
+      <stop offset="66%" stop-color="#fbbc04" />
+      <stop offset="100%" stop-color="#ea4335" />
+    </linearGradient>
+  </defs>
+
+  <rect x="1" y="1" width="30" height="30" rx="7" fill="url(#gdocx-frame)" />
+  <rect x="1" y="1" width="30" height="3" rx="7" fill="url(#gdocx-stripe)" />
+  <rect
+    x="1"
+    y="1"
+    width="30"
+    height="30"
+    rx="7"
+    stroke="rgba(255,255,255,0.65)"
+    stroke-width="0.75"
+  />
+
+  <g transform="translate(4 5)">
+    <path
+      d="M7 4h8l4 4v13a1.5 1.5 0 01-1.5 1.5H7A1.5 1.5 0 015.5 21V5.5A1.5 1.5 0 017 4z"
+      fill="white"
+      fill-opacity="0.95"
+    />
+    <path d="M15 4v4h4" fill="#e8f0fe" />
+    <path d="M15 4l4 4h-3a1 1 0 01-1-1V4z" fill="#4285f4" fill-opacity="0.85" />
+    <rect x="8" y="11" width="9" height="1.2" rx="0.6" fill="#4285f4" fill-opacity="0.9" />
+    <rect x="8" y="14" width="7" height="1.2" rx="0.6" fill="#34a853" fill-opacity="0.85" />
+    <rect x="8" y="17" width="5.5" height="1.2" rx="0.6" fill="#fbbc04" fill-opacity="0.9" />
+  </g>
+</svg>
