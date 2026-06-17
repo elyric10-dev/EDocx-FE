@@ -1,0 +1,223 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+@import "./styles/tokens.css";
+@import "./styles/animations.css";
+@import "./styles/components.css";
+
+body {
+  margin: 0;
+}
+
+#root {
+  min-height: 100svh;
+}
+
+.document-editor-content {
+  color: #202124;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-size: 11pt;
+  line-height: 1.6;
+  position: relative;
+  overflow: hidden;
+}
+
+.editor-page {
+  position: relative;
+  min-height: 65vh;
+  overflow: hidden;
+}
+
+/* Hold Alt/Option to click through text and select layered images */
+.layer-image-pick .ProseMirror > *:not([data-text-wrap='behind']):not([data-text-wrap='front']) {
+  pointer-events: none;
+}
+
+.layer-image-pick [data-text-wrap='behind'],
+.layer-image-pick [data-text-wrap='front'] {
+  cursor: crosshair;
+}
+
+/* Text layers above behind/front images */
+.editor-page .ProseMirror > *:not([data-text-wrap='behind']):not([data-text-wrap='front']) {
+  position: relative;
+  z-index: 1;
+}
+
+/* Resizable images (tiptap-extension-resize-image) */
+.ProseMirror .image-resize-wrapper,
+.ProseMirror [data-text-wrap] {
+  max-width: 100%;
+  line-height: 0;
+}
+
+.ProseMirror .image-resize-wrapper {
+  margin: 0.75em 0;
+}
+
+.ProseMirror [data-text-wrap='behind'],
+.ProseMirror [data-text-wrap='front'] {
+  margin: 0;
+}
+
+.ProseMirror [data-text-wrap='wrap-left'] {
+  clear: none;
+}
+
+.ProseMirror [data-text-wrap='wrap-right'] {
+  clear: none;
+}
+
+.document-editor-content::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.ProseMirror [data-text-wrap='behind'] {
+  position: absolute;
+  z-index: 0;
+  left: var(--img-x, 0px);
+  top: var(--img-y, 0px);
+  margin: 0;
+  cursor: move;
+  pointer-events: auto;
+}
+
+.ProseMirror-selectednode[data-text-wrap='behind'] {
+  z-index: 2;
+  outline: 2px solid #1a73e8;
+  outline-offset: 1px;
+}
+
+.ProseMirror [data-text-wrap='front'] {
+  position: absolute;
+  z-index: 2;
+  left: var(--img-x, 0px);
+  top: var(--img-y, 0px);
+  margin: 0;
+  cursor: move;
+  pointer-events: auto;
+}
+
+.ProseMirror img {
+  max-width: 100%;
+  height: auto;
+}
+
+.ProseMirror {
+  outline: none;
+}
+
+/* Tailwind preflight strips list markers — restore them in the editor */
+.ProseMirror ul {
+  list-style: disc outside;
+  margin: 0;
+  padding-left: 1.625rem;
+}
+
+.ProseMirror ol {
+  list-style: decimal outside;
+  margin: 0;
+  padding-left: 1.625rem;
+}
+
+.ProseMirror ul ul {
+  list-style-type: circle;
+}
+
+.ProseMirror ol ol {
+  list-style-type: lower-alpha;
+}
+
+.ProseMirror li {
+  display: list-item;
+  margin: 0;
+  padding: 0;
+}
+
+.ProseMirror li > p {
+  margin: 0;
+}
+
+/* Tight block spacing — no large margins between lines or headings */
+.ProseMirror > * {
+  margin: 0;
+}
+
+.ProseMirror > * + * {
+  margin-top: 0.125rem;
+}
+
+.ProseMirror p {
+  line-height: 1.5;
+}
+
+.ProseMirror u {
+  text-decoration: underline;
+}
+
+.ProseMirror h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.ProseMirror h2 {
+  font-size: 1.375rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.ProseMirror h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.ProseMirror h1:not(:first-child),
+.ProseMirror h2:not(:first-child),
+.ProseMirror h3:not(:first-child) {
+  margin-top: 0.5rem;
+}
+
+.ProseMirror blockquote {
+  border-left: 3px solid #cbd5e1;
+  margin: 0.25em 0;
+  padding-left: 0.75em;
+  color: #475569;
+}
+
+.ProseMirror pre {
+  background: #f1f5f9;
+  border-radius: 0.375rem;
+  color: #1e293b;
+  font-family: ui-monospace, monospace;
+  font-size: 0.875rem;
+  margin: 0.25em 0;
+  padding: 0.5em 0.75em;
+}
+
+.ProseMirror code {
+  background: #f1f5f9;
+  border-radius: 0.25rem;
+  color: #1e293b;
+  font-family: ui-monospace, monospace;
+  font-size: 0.875em;
+  padding: 0.125em 0.25em;
+}
+
+.ProseMirror pre code {
+  background: none;
+  padding: 0;
+}
+
+.ProseMirror hr {
+  border: none;
+  border-top: 1px solid #e2e8f0;
+  margin: 0.5em 0;
+}
+
+.ProseMirror mark {
+  border-radius: 0.125rem;
+  padding: 0.1em 0;
+}
