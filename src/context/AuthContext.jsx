@@ -1,0 +1,88 @@
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import { AUTH_UNAUTHORIZED_EVENT } from '../services/api'
+import { authService } from '../services/authService'
+
+const AuthContext = createContext(null)
+
+export function AuthProvider({ children }) {
+  const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true)
+
+  const clearSession = useCallback(() => {
+    authService.clearTokens()
+    setUser(null)
+  }, [])
+
+  const restoreSession = useCallback(async () => {
+    const token = authService.getAccessToken()
+    if (!token) {
+      setUser(null)
+      setLoading(false)
+      return
+    }
+
+    try {
+      const profile = await authService.getMe()
+      setUser(profile)
+    } catch {
+      clearSession()
+    } finally {
+      setLoading(false)
+    }
+  }, [clearSession])
+
+  useEffect(() => {
+    restoreSession()
+  }, [restoreSession])
+
+  useEffect(() => {
+    function handleUnauthorized() {
+      setUser(null)
+    }
+
+    window.addEventListener(AUTH_UNAUTHORIZED_EVENT, handleUnauthorized)
+    return () => window.removeEventListener(AUTH_UNAUTHORIZED_EVENT, handleUnauthorized)
+  }, [])
+
+  const signup = useCallback(async (email, password, fullName) => {
+    authService.clearTokens()
+    const data = await authService.register(email, password, fullName)
+    setUser({ id: data.user_id, email: data.email })
+    return data
+  }, [])
+
+  const login = useCallback(async (email, password) => {
+    authService.clearTokens()
+    const data = await authService.login(email, password)
+    setUser({ id: data.user_id, email: data.email })
+    return data
+  }, [])
+
+  const logout = useCallback(async () => {
+    await authService.logout()
+    setUser(null)
+  }, [])
+
+  const value = useMemo(
+    () => ({
+      user,
+      loading,
+      isAuthenticated: Boolean(user),
+      signup,
+      login,
+      logout,
+      clearSession,
+    }),
+    [user, loading, signup, login, logout, clearSession],
+  )
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+}
+
+export function useAuth() {
+  const context = useContext(AuthContext)
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider')
+  }
+  return context
+}
